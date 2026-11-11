@@ -1,0 +1,14 @@
+render.yaml
+  h_08a74d6d4f075a 1-16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "8df16c6682a1c7aa4ee72a1ed8f9da83f35eb781",
+  "prompts": {},
+  "humans": {
+    "h_08a74d6d4f075a": {
+      "author": "Hitesh Goel <hiteshgoel.afs@gmail.com>"
+    }
+  }
+}

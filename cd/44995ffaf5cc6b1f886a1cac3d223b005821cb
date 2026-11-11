@@ -1,0 +1,36 @@
+.env.example
+  h_08a74d6d4f075a 1-6
+.gitignore
+  h_08a74d6d4f075a 1-6
+README.md
+  h_08a74d6d4f075a 1-49
+app/__init__.py
+  h_08a74d6d4f075a 1
+app/llm.py
+  h_08a74d6d4f075a 1-86
+app/main.py
+  h_08a74d6d4f075a 1-59
+app/schemas.py
+  h_08a74d6d4f075a 1-21
+app/storage.py
+  h_08a74d6d4f075a 1-41
+docs/LEVEL-1.md
+  h_08a74d6d4f075a 1-59
+evals/run_eval.py
+  h_08a74d6d4f075a 1-69
+requirements.txt
+  h_08a74d6d4f075a 1-8
+static/index.html
+  h_08a74d6d4f075a 1-106
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "cd44995ffaf5cc6b1f886a1cac3d223b005821cb",
+  "prompts": {},
+  "humans": {
+    "h_08a74d6d4f075a": {
+      "author": "Hitesh Goel <hiteshgoel.afs@gmail.com>"
+    }
+  }
+}

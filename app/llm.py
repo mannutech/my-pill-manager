@@ -27,6 +27,7 @@ def extract_med(image_bytes: bytes, media_type: str = "image/jpeg") -> MedEntry:
     raw = {
         "anthropic": _extract_anthropic,
         "openai": _extract_openai,
+        "ollama": _extract_ollama,
         "mock": _extract_mock,
     }[provider](image_bytes, media_type)
     # The harness boundary: whatever the model returned, it must pass
@@ -64,6 +65,24 @@ def _extract_anthropic(image_bytes: bytes, media_type: str) -> str:
     )
     text = next(b.text for b in msg.content if b.type == "text")
     return text
+
+
+def _extract_ollama(image_bytes: bytes, media_type: str) -> str:
+    import httpx
+
+    resp = httpx.post(
+        os.getenv("OLLAMA_HOST", "http://localhost:11434") + "/api/generate",
+        json={
+            "model": os.getenv("OLLAMA_MODEL", "qwen2.5vl:3b"),
+            "prompt": EXTRACTION_PROMPT,
+            "images": [base64.b64encode(image_bytes).decode()],
+            "format": "json",
+            "stream": False,
+        },
+        timeout=120,
+    )
+    resp.raise_for_status()
+    return resp.json()["response"]
 
 
 def _extract_openai(image_bytes: bytes, media_type: str) -> str:

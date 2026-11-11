@@ -25,7 +25,8 @@ why the next level exists — lives in `docs/LEVEL-N.md`.
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env        # LLM_PROVIDER=mock works with no API key
+cp .env.example .env        # LLM_PROVIDER=mock works with no API key;
+                            # ollama works free locally: `ollama pull qwen2.5vl:3b`
 uvicorn app.main:app --reload
 ```
 

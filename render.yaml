@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: my-pill-manager
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: LLM_PROVIDER
+        value: mock          # flip to anthropic/openai when you add a key
+      - key: ANTHROPIC_API_KEY
+        sync: false          # set in Render dashboard, never in the repo
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: PYTHON_VERSION
+        value: "3.13"        # Render's supported range; 3.14 wheels lag behind

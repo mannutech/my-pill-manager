@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 load_dotenv()
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from app.llm import extract_med  # noqa: E402
+from app.agent import run_agent  # noqa: E402
 
 PHOTOS = Path(__file__).parent / "photos"
 EXPECTED = Path(__file__).parent / "expected"
@@ -48,7 +48,12 @@ def main() -> int:
         want = json.loads(exp_file.read_text())
         media = "image/png" if photo.suffix == ".png" else "image/jpeg"
         try:
-            got = extract_med(photo.read_bytes(), media).model_dump()
+            result = run_agent(photo.read_bytes(), media, allow_ask=False)
+            if result["type"] != "proposal":
+                print(f"FAIL {stem}: agent returned {result['type']} "
+                      f"({result.get('detail', '')})")
+                continue
+            got = result["proposal"]
         except Exception as e:
             print(f"FAIL {stem}: extraction raised {e}")
             continue

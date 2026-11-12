@@ -23,6 +23,13 @@
     <input type="file" id="photo" accept="image/*" capture="environment">
   </div>
 
+  <div id="question" class="card" style="display:none">
+    <h3>The agent has a question</h3>
+    <p id="q_text"></p>
+    <input id="q_answer" placeholder="your answer">
+    <button onclick="sendAnswer()">Send</button>
+  </div>
+
   <div id="proposal" class="card" style="display:none">
     <h3>Confirm what I read</h3>
     <label>Name <input id="p_name"></label>
@@ -38,23 +45,48 @@
 
   <script>
     let proposal = null;
+    let draftId = null;
+
+    function showProposal(p) {
+      proposal = p;
+      document.getElementById("p_name").value = p.name;
+      document.getElementById("p_dose").value = p.dose;
+      document.getElementById("p_tpd").value = p.times_per_day;
+      document.getElementById("p_times").value = p.dose_times.join(", ");
+      document.getElementById("p_qty").value = p.quantity_total;
+      document.getElementById("p_conf").textContent =
+        `confidence: ${(p.confidence * 100).toFixed(0)}% — edit anything that looks wrong`;
+      document.getElementById("question").style.display = "none";
+      document.getElementById("proposal").style.display = "block";
+    }
+
+    function showQuestion(q, id) {
+      draftId = id;
+      document.getElementById("q_text").textContent = q;
+      document.getElementById("q_answer").value = "";
+      document.getElementById("question").style.display = "block";
+    }
+
+    function handleResult(r, data) {
+      if (!r.ok) { alert(data.detail); return; }
+      if (data.type === "proposal") showProposal(data.proposal);
+      else if (data.type === "question") showQuestion(data.question, data.draft_id || draftId);
+      else alert("Agent couldn't finish: " + (data.detail || "unknown"));
+    }
 
     document.getElementById("photo").onchange = async (e) => {
       const fd = new FormData();
       fd.append("photo", e.target.files[0]);
       const r = await fetch("/api/extract", { method: "POST", body: fd });
-      const data = await r.json();
-      if (!r.ok) { alert(data.detail); return; }
-      proposal = data.proposal;
-      document.getElementById("p_name").value = proposal.name;
-      document.getElementById("p_dose").value = proposal.dose;
-      document.getElementById("p_tpd").value = proposal.times_per_day;
-      document.getElementById("p_times").value = proposal.dose_times.join(", ");
-      document.getElementById("p_qty").value = proposal.quantity_total;
-      document.getElementById("p_conf").textContent =
-        `confidence: ${(proposal.confidence * 100).toFixed(0)}% — edit anything that looks wrong`;
-      document.getElementById("proposal").style.display = "block";
+      handleResult(r, await r.json());
     };
+
+    async function sendAnswer() {
+      const r = await fetch(`/api/extract/${draftId}/answer`, { method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({answer: document.getElementById("q_answer").value}) });
+      handleResult(r, await r.json());
+    }
 
     async function confirmMed() {
       const entry = {

@@ -7,8 +7,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 
-from . import storage
-from .llm import extract_med
+from . import agent, storage
 from .schemas import MedEntry
 
 app = FastAPI(title="my-pill-manager")
@@ -22,14 +21,21 @@ def index():
 
 @app.post("/api/extract")
 async def extract(photo: UploadFile = File(...)):
-    """Step 1: photo -> proposed MedEntry. Nothing is saved yet —
-    the user must confirm via /api/meds. The LLM proposes, code disposes."""
+    """Step 1: photo -> agent loop -> proposal OR a question for the user.
+    Nothing is saved yet — the user confirms via /api/meds."""
     image = await photo.read()
     try:
-        proposal = extract_med(image, photo.content_type or "image/jpeg")
+        return agent.new_draft(image, photo.content_type or "image/jpeg")
     except Exception as e:
         raise HTTPException(422, f"Could not parse label: {e}")
-    return {"proposal": proposal.model_dump()}
+
+
+@app.post("/api/extract/{draft_id}/answer")
+def answer(draft_id: str, body: dict):
+    """Resume a paused agent loop with the user's answer."""
+    if draft_id not in agent._drafts:
+        raise HTTPException(404, "draft expired or unknown")
+    return agent.resume_draft(draft_id, body.get("answer", ""))
 
 
 @app.post("/api/meds")

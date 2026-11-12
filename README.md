@@ -18,7 +18,9 @@ tag to see the app at that stage; `main` is always the latest level.
 | `level-5` | Turn logging, eval dashboard, CI gates | Observability |
 
 Each level's writeup — what was learned, how it maps to real products, and
-why the next level exists — lives in `docs/LEVEL-N.md`.
+why the next level exists — lives in `docs/LEVEL-N.md`. Level 1's one-shot
+extractor (`app/llm.py`) is kept alongside the Level 2 agent loop
+(`app/agent.py`) so the approaches can be compared on the same eval set.
 
 ## Run it
 

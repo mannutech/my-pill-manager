@@ -34,6 +34,26 @@ Open http://localhost:8000 — upload a label photo, confirm the parsed
 fields, then "Took it" decrements stock. Meds are stored in
 `data/meds.json`.
 
+## Deploy (Render)
+
+`render.yaml` is included — New → Blueprint → connect repo on Render, and
+every push to `main` redeploys. Set `LLM_PROVIDER` + API keys in the
+dashboard (`ANTHROPIC_API_KEY`/`OPENAI_API_KEY` are `sync: false`).
+
+To use a laptop-hosted Ollama from the cloud deploy, tunnel it:
+
+```bash
+ollama serve
+cloudflared tunnel --url http://localhost:11434 --http-host-header localhost:11434
+# -> set OLLAMA_HOST=https://<random>.trycloudflare.com on Render
+```
+
+Caveats: Ollama has no auth (anyone with the URL can use it — add
+Cloudflare Access before leaving it up), the quick-tunnel URL changes on
+every restart (a named tunnel + own domain makes it stable), and the
+deployed app breaks whenever the laptop sleeps. Fine for demos; for real
+users, use a hosted API key.
+
 ## The one rule that runs through every level
 
 **The LLM proposes, code disposes.** The model can never write to the med

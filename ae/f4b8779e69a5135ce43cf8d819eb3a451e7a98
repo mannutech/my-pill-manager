@@ -1,0 +1,16 @@
+.env.example
+  h_08a74d6d4f075a 11-15
+README.md
+  h_08a74d6d4f075a 37-56
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "aef4b8779e69a5135ce43cf8d819eb3a451e7a98",
+  "prompts": {},
+  "humans": {
+    "h_08a74d6d4f075a": {
+      "author": "Hitesh Goel <hiteshgoel.afs@gmail.com>"
+    }
+  }
+}

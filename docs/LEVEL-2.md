@@ -20,7 +20,7 @@ comparison). UI gained a question card. Evals run the agent with
 
 ```mermaid
 sequenceDiagram
-    actor U as User
+    participant U as User
     participant UI as Web UI
     participant API as FastAPI
     participant AG as Agent loop
@@ -30,28 +30,28 @@ sequenceDiagram
 
     U->>UI: upload label photo
     UI->>API: POST /api/extract
-    API->>AG: new_draft(image)
+    API->>AG: new draft with image
     loop up to 8 turns
-        AG->>LLM: messages (image, tool results, reprompts)
+        AG->>LLM: messages so far
         LLM-->>AG: one JSON action
         alt lookup_drug
-            AG->>RX: approximateTerm(name)
+            AG->>RX: approximateTerm name
             RX-->>AG: candidate list
-            AG->>AG: append result as user msg
+            AG->>AG: append result as user message
         else recrop
-            AG->>AG: crop region -> append new image
+            AG->>AG: crop region, append new image
         else ask_user
             AG->>D: save history under draft_id
-            AG-->>UI: {"type": "question"}
+            AG-->>UI: type question
             UI->>U: show question
-            U->>API: POST /api/extract/{id}/answer
-            API->>AG: resume(history + answer)
+            U->>API: POST answer to draft
+            API->>AG: resume with history plus answer
         else propose
-            AG->>AG: MedEntry validation<br/>(fail -> error fed back, loop continues)
-            AG-->>UI: {"type": "proposal"}
+            AG->>AG: MedEntry validation — fail means error fed back, loop continues
+            AG-->>UI: type proposal
         end
     end
-    UI->>U: confirm/edit form -> POST /api/meds (same as Level 1)
+    UI->>U: confirm or edit form, then POST /api/meds same as Level 1
 ```
 
 ## What I learned

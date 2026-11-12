@@ -13,23 +13,23 @@ in `app/llm.py`. Everything around it is normal FastAPI + vanilla JS.
 
 ```mermaid
 sequenceDiagram
-    actor U as User
+    participant U as User
     participant UI as Web UI
     participant API as FastAPI
-    participant V as LLM (vision)
+    participant V as Vision LLM
     participant DB as meds.json
 
     U->>UI: upload label photo
     UI->>API: POST /api/extract
     API->>V: image + extraction prompt
     V-->>API: raw JSON text
-    API->>API: MedEntry schema validation<br/>(reject -> 422, nothing stored)
+    API->>API: MedEntry schema validation (reject = 422, nothing stored)
     API-->>UI: proposed MedEntry + confidence
-    UI->>U: confirm/edit form
-    U->>UI: "looks right" (or edits fields)
-    UI->>API: POST /api/meds (confirmed entry)
+    UI->>U: confirm or edit form
+    U->>UI: looks right
+    UI->>API: POST /api/meds confirmed entry
     API->>DB: write med record
-    Note over U,DB: Later: "Took it" -> stock-1;<br/>low stock -> refill flag
+    Note over U,DB: Later — Took it decrements stock, low stock flags a refill
 ```
 
 ## What I learned

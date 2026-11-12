@@ -1,0 +1,16 @@
+docs/LEVEL-1.md
+  h_08a74d6d4f075a 12-34
+docs/LEVEL-2.md
+  h_08a74d6d4f075a 19-56
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "dcb0e75ee6416f8bf99ebf9f944f78a10499839e",
+  "prompts": {},
+  "humans": {
+    "h_08a74d6d4f075a": {
+      "author": "Hitesh Goel <hiteshgoel.afs@gmail.com>"
+    }
+  }
+}

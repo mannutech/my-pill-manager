@@ -1,0 +1,28 @@
+README.md
+  h_08a74d6d4f075a 21-23
+app/agent.py
+  h_08a74d6d4f075a 1-163
+app/main.py
+  h_08a74d6d4f075a 10,24-25,28,31-38
+app/providers.py
+  h_08a74d6d4f075a 1-102
+docs/LEVEL-2.md
+  h_08a74d6d4f075a 1-60
+evals/run_eval.py
+  h_08a74d6d4f075a 20,51-56
+requirements.txt
+  h_08a74d6d4f075a 9
+static/index.html
+  h_08a74d6d4f075a 26-32,48-75,81,84-90
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "5e4f8682ca80fc09515e6871fe415cbed368fe7a",
+  "prompts": {},
+  "humans": {
+    "h_08a74d6d4f075a": {
+      "author": "Hitesh Goel <hiteshgoel.afs@gmail.com>"
+    }
+  }
+}

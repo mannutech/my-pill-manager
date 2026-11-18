@@ -9,13 +9,13 @@ tag to see the app at that stage; `main` is always the latest level.
 
 ## Level map
 
-| Tag | Adds | Core lesson |
-|-----|------|-------------|
-| `level-1` | Photo → structured JSON → confirm → save; stock countdown; eval set | Structured output + validation + evals |
-| `level-2` | Agent loop with tools (drug lookup, re-read crop, ask_user) | Tool use, stopping conditions, cost control |
-| `level-3` | Adherence memory + summarization | Context/memory design |
-| `level-4` | Refill agent vs single-prompt comparison | When delegation pays off (rarely) |
-| `level-5` | Turn logging, eval dashboard, CI gates | Observability |
+| Tag | Adds | Core lesson | Writeup |
+|-----|------|-------------|---------|
+| `level-1` | Photo → structured JSON → confirm → save; stock countdown; eval set | Structured output + validation + evals | [docs/LEVEL-1.md](docs/LEVEL-1.md) |
+| `level-2` | Agent loop with tools (drug lookup, re-read crop, ask_user) | Tool use, stopping conditions, cost control | [docs/LEVEL-2.md](docs/LEVEL-2.md) |
+| `level-3` | Adherence memory + summarization | Context/memory design | docs/LEVEL-3.md |
+| `level-4` | Refill agent vs single-prompt comparison | When delegation pays off (rarely) | docs/LEVEL-4.md |
+| `level-5` | Turn logging, eval dashboard, CI gates | Observability | docs/LEVEL-5.md |
 
 Each level's writeup — what was learned, how it maps to real products, and
 why the next level exists — lives in `docs/LEVEL-N.md`. Level 1's one-shot
